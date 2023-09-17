@@ -1,0 +1,35 @@
+service: serveless-rest-api
+frameworkVersion: ">=1.1.0"
+provider:
+  name: aws
+  runtime: go1.x
+  region: us-east-1
+  stage: ${opt:stage, 'dev'}
+functions:
+  api:
+    handler: bin/main
+    events:
+      - http:
+          path: /ping
+          method: GET
+      - http:
+          path: /api/v1/posts/
+          method: GET
+      - http:
+          path: /api/v1/posts/{id}
+          method: GET
+      - http:
+          path: /api/v1/posts/
+          method: POST
+      - http:
+          path: /api/v1/posts/{id}
+          method: PUT
+      - http:
+          path: /api/v1/posts/{id}
+          method: DELETE
+
+package:
+  patterns:
+    - "!*/**"
+    - .env
+    - bin/main
